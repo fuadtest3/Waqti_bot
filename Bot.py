@@ -124,7 +124,7 @@ async def main():
     app.add_handler(CommandHandler("report", handle_message))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     job_queue = app.job_queue
-    job_queue.run_repeating(ask_checkin, interval=1800, first=10)
+    job_queue.run_repeating(ask_checkin, interval=600, first=10)
     job_queue.run_daily(send_report, time=time(hour=22, minute=0))
     print("Bot is running with Gemini AI...")
     await app.run_polling()
