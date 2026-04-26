@@ -1,6 +1,6 @@
 import os
 import pytz
-TIMEZONE = pytz.timezone(“Asia/Amman”)
+TIMEZONE = pytz.timezone("Asia/Amman")
 
 import json
 import asyncio
