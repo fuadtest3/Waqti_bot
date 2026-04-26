@@ -1,4 +1,7 @@
 import os
+import pytz
+TIMEZONE = pytz.timezone("Asia/Amman")
+
 import json
 import asyncio
 from datetime import datetime, time
@@ -12,16 +15,21 @@ DATA_FILE = "entries.json"
 PRODUCTIVE_KEYWORDS = [
     "شغل", "اجتماع", "ميتنق", "كود", "برمجة", "دراسة", "قراءة", "تعلم", "مشروع",
     "تقرير", "ايميل", "بريد", "تصميم", "كتابة", "بحث", "تخطيط", "تدريب", "رياضة",
-    "work", "meeting", "code", "study", "reading", "project", "report", "design",
-    "writing", "research", "planning", "email", "call", "exercise", "gym", "gym"
+    "اشتغل", "ذاكر", "حضرت", "راجعت", "كتبت", "انجزت", "خلصت", "سويت",
+    "work", "meeting", "code", "study", "reading", "project", "report",
+    "design", "writing", "research", "planning", "email", "call", "exercise"
 ]
 
 WASTE_KEYWORDS = [
-    "يوتيوب", "انستا", "تويتر", "سناب", "تيك توك", "نايم", "نوم", "يلعب", "لعب",
-    "سوشيال", "نتفلكس", "يتصفح", "تصفح", "بطال", "مافي شي", "لا شي", "استراحه", "استراحة",
-    "youtube", "instagram", "twitter", "snapchat", "tiktok", "sleeping", "gaming",
-    "scroll", "netflix", "nothing", "idle"
+    "يوتيوب", "انستا", "تويتر", "سناب", "تيك توك", "نايم", "نوم",
+    "يلعب", "لعب", "سوشيال", "نتفلكس", "يتصفح", "تصفح",
+    "بطال", "مافي شي", "لا شي", "ما بسوي شي", "ما سويت شي",
+    "بدون شي", "فاضي", "عاطل", "جالس بس", "قاعد بس",
+    "موبايل", "تلفون", "سكرول", "ريلز", "شورتس",
+    "youtube", "instagram", "twitter", "snapchat", "tiktok",
+    "sleeping", "gaming", "scroll", "netflix", "nothing", "idle"
 ]
+
 
 def classify(text):
     lower = text.lower()
@@ -112,7 +120,8 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     entry_type = classify(text)
-    now = datetime.now().strftime("%I:%M %p")
+    now = datetime.now(TIMEZONE).strftime("%I:%M %p")
+
 
     entries = load_entries()
     entries.append({"time": now, "text": text, "type": entry_type})
